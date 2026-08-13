@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HirePulse & CareerVault - Job Portal & Dedicated DSA Prep Platform</title>
+  <meta name="description" content="All-in-one Job Portal, Dedicated DSA Prep Sheet, Aptitude & Technical Core Notes, HR Mock Simulator, and Company Hiring Guide.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Style Sheets -->
+  <link rel="stylesheet" href="./css/main.css">
+  <link rel="stylesheet" href="./css/navbar.css">
+  <link rel="stylesheet" href="./css/job-portal.css">
+  <link rel="stylesheet" href="./css/dsa-sheet.css">
+  <link rel="stylesheet" href="./css/prep-hub.css">
+  <link rel="stylesheet" href="./css/company-guide.css">
+  <!-- PDF.js Library for PDF Text Extraction -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+</head>
+<body>
+  <div class="bg-mesh"></div>
+
+  <div id="app">
+    <!-- Header Navbar -->
+    <header class="site-header">
+      <div class="container header-container">
+        <a href="#" class="brand-logo" id="brandLogo">
+          <div class="brand-icon-box" id="brandIconBox">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>
+          </div>
+          <div style="display:flex; flex-direction:column;">
+            <span class="brand-title" id="brandTitleText">HirePulse</span>
+            <span id="brandRoleBadge" class="badge badge-indigo" style="font-size:0.6rem; padding:0.1rem 0.4rem; font-weight:800; width:fit-content; margin-top:-0.15rem;">🧳 CANDIDATE</span>
+          </div>
+        </a>
+
+        <ul class="nav-tabs">
+          <li class="nav-tab-item">
+            <button class="nav-tab-btn active" data-tab="job-portal">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="6" rx="2"></rect><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+              Job Portal
+            </button>
+          </li>
+          <li class="nav-tab-item">
+            <button class="nav-tab-btn" data-tab="dsa-sheet">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+              DSA Sheet <span class="tab-badge" id="navDsaCount">0/11</span>
+            </button>
+          </li>
+          <li class="nav-tab-item">
+            <button class="nav-tab-btn" data-tab="prep-hub">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+              Prep Hub
+            </button>
+          </li>
+          <li class="nav-tab-item">
+            <button class="nav-tab-btn" data-tab="company-guide">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"></rect><path d="M9 22v-4h6v4"></path></svg>
+              Companies Hiring Guide
+            </button>
+          </li>
+          <li class="nav-tab-item">
+            <button class="nav-tab-btn" data-tab="my-tracker">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+              My Applications <span class="tab-badge" id="navAppCount">0</span>
+            </button>
+          </li>
+        </ul>
+
+        <div class="header-actions">
+          <div class="user-stats-pill">
+            <div class="stat-item" title="Solved DSA Problems">
+              <span style="color:var(--accent-emerald);">⚡</span> <span id="headerDsaPct">0% Solved</span>
+            </div>
+          </div>
+
+          <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Dark/Light Mode">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Container Target -->
+    <main id="mainContent" class="main-content"></main>
+
+    <!-- Footer -->
+    <footer style="border-top:1px solid var(--border-color); padding: 2.5rem 0; background: var(--bg-secondary); margin-top: auto;">
+      <div class="container" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; font-size:0.85rem; color:var(--text-secondary);">
+        <div>
+          <strong style="color:var(--text-primary); font-size:1rem;">HirePulse & CareerVault</strong> — Complete Job Portal & Tech Career Preparation Ecosystem.
+        </div>
+        <div>
+          © 2026 HirePulse Inc. Built for engineering graduates, job seekers, and recruiters.
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Modal Target Container -->
+  <div id="modalTarget"></div>
+
+  <!-- Entry Script -->
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>

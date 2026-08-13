@@ -1,0 +1,17 @@
+{
+  "frontendFolder": "C:/Users/mdsaj/OneDrive/Desktop/Code/HirePulse/frontend/frontend",
+  "themeFolder": "themes",
+  "themeResourceFolder": "C:/Users/mdsaj/OneDrive/Desktop/Code/HirePulse/frontend/frontend/generated/jar-resources",
+  "staticOutput": "C:/Users/mdsaj/OneDrive/Desktop/Code/HirePulse/frontend/target/classes/META-INF/VAADIN/webapp/VAADIN/static",
+  "generatedFolder": "generated",
+  "statsOutput": "C:\\Users\\mdsaj\\OneDrive\\Desktop\\Code\\HirePulse\\frontend\\target\\classes\\META-INF\\VAADIN\\config",
+  "frontendBundleOutput": "C:\\Users\\mdsaj\\OneDrive\\Desktop\\Code\\HirePulse\\frontend\\target\\classes\\META-INF\\VAADIN\\webapp",
+  "devBundleOutput": "C:/Users/mdsaj/OneDrive/Desktop/Code/HirePulse/frontend/target/dev-bundle/webapp",
+  "devBundleStatsOutput": "C:/Users/mdsaj/OneDrive/Desktop/Code/HirePulse/frontend/target/dev-bundle/config",
+  "jarResourcesFolder": "C:/Users/mdsaj/OneDrive/Desktop/Code/HirePulse/frontend/frontend/generated/jar-resources",
+  "themeName": "hirepulse",
+  "clientServiceWorkerSource": "C:\\Users\\mdsaj\\OneDrive\\Desktop\\Code\\HirePulse\\frontend\\target\\sw.ts",
+  "pwaEnabled": false,
+  "offlineEnabled": false,
+  "offlinePath": "'offline.html'"
+}
