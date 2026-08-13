@@ -36,7 +36,7 @@ public class PrepHubView extends VerticalLayout {
         setSizeFull();
         setPadding(true);
         setSpacing(true);
-        getStyle().set("background-color", "#0f172a");
+        getStyle().set("background-color", "var(--hp-bg-primary)");
 
         createHeader();
         createSubTabs();
@@ -87,8 +87,8 @@ public class PrepHubView extends VerticalLayout {
             VerticalLayout card = new VerticalLayout();
             card.setWidthFull();
             card.getStyle()
-                    .set("background", "rgba(30, 41, 59, 0.75)")
-                    .set("border", "1px solid rgba(255, 255, 255, 0.08)")
+                    .set("background", "var(--hp-bg-card)")
+                    .set("border", "1px solid var(--hp-border-color)")
                     .set("border-radius", "14px")
                     .set("padding", "20px")
                     .set("margin-bottom", "12px");
@@ -164,8 +164,8 @@ public class PrepHubView extends VerticalLayout {
             VerticalLayout card = new VerticalLayout();
             card.setWidthFull();
             card.getStyle()
-                    .set("background", "rgba(30, 41, 59, 0.75)")
-                    .set("border", "1px solid rgba(255, 255, 255, 0.08)")
+                    .set("background", "var(--hp-bg-card)")
+                    .set("border", "1px solid var(--hp-border-color)")
                     .set("border-radius", "14px")
                     .set("padding", "22px")
                     .set("margin-bottom", "12px");

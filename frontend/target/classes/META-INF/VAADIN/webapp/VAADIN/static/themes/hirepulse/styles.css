@@ -1,13 +1,13 @@
-/* Modern Premium Dark Theme for HirePulse Job Preparation Platform */
+/* Modern Premium Dark/Light Theme for HirePulse Job Preparation Platform */
 
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
-:root {
+:root, [theme~="dark"] {
   --hp-bg-primary: #0f172a;
   --hp-bg-surface: #1e293b;
-  --hp-bg-card: rgba(30, 41, 59, 0.7);
-  --hp-bg-card-hover: rgba(51, 65, 85, 0.8);
-  --hp-border-color: rgba(255, 255, 255, 0.08);
+  --hp-bg-card: rgba(30, 41, 59, 0.75);
+  --hp-bg-card-hover: rgba(51, 65, 85, 0.85);
+  --hp-border-color: rgba(255, 255, 255, 0.1);
   
   --hp-primary: #6366f1;
   --hp-primary-hover: #4f46e5;
@@ -25,6 +25,13 @@
   --hp-text-main: #f8fafc;
   --hp-text-muted: #94a3b8;
   --hp-text-dim: #64748b;
+
+  --lumo-base-color: #0f172a;
+  --lumo-body-text-color: #f8fafc;
+  --lumo-header-text-color: #ffffff;
+  --lumo-secondary-text-color: #94a3b8;
+  --lumo-contrast-5pct: rgba(255, 255, 255, 0.05);
+  --lumo-contrast-10pct: rgba(255, 255, 255, 0.1);
   
   --hp-radius-sm: 8px;
   --hp-radius-md: 12px;
@@ -35,36 +42,62 @@
   --hp-shadow-glow: 0 0 20px rgba(99, 102, 241, 0.25);
 }
 
-html, body {
-  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  background-color: var(--hp-bg-primary);
-  color: var(--hp-text-main);
-  margin: 0;
-  padding: 0;
+[theme~="light"], html[theme~="light"] {
+  --hp-bg-primary: #f8fafc;
+  --hp-bg-surface: #ffffff;
+  --hp-bg-card: #ffffff;
+  --hp-bg-card-hover: #f1f5f9;
+  --hp-border-color: rgba(0, 0, 0, 0.12);
+  
+  --hp-text-main: #0f172a;
+  --hp-text-muted: #475569;
+  --hp-text-dim: #64748b;
+
+  --lumo-base-color: #ffffff;
+  --lumo-body-text-color: #0f172a;
+  --lumo-header-text-color: #0f172a;
+  --lumo-secondary-text-color: #475569;
+  --lumo-contrast-5pct: rgba(0, 0, 0, 0.03);
+  --lumo-contrast-10pct: rgba(0, 0, 0, 0.08);
+  
+  --hp-shadow-card: 0 10px 20px -5px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+  --hp-shadow-glow: 0 0 15px rgba(99, 102, 241, 0.15);
 }
 
-/* Glassmorphism Container */
-.hp-glass-card {
-  background: var(--hp-bg-card);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--hp-border-color);
+/* Global Application background & text transition across whole website */
+html, body, vaadin-app-layout, [part="content"], main, .main-content {
+  background-color: var(--hp-bg-primary) !important;
+  color: var(--hp-text-main) !important;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* All headings and text paragraphs */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--hp-text-main) !important;
+}
+
+p, span, div, li, td, th {
+  color: var(--hp-text-main);
+}
+
+/* Subtitles and Muted Labels */
+.text-muted, .subtitle, [part="secondary-text"] {
+  color: var(--hp-text-muted) !important;
+}
+
+/* Glassmorphism & Card Containers */
+.hp-glass-card, .hp-card, .vaadin-card {
+  background: var(--hp-bg-card) !important;
+  border: 1px solid var(--hp-border-color) !important;
   border-radius: var(--hp-radius-md);
   box-shadow: var(--hp-shadow-card);
-  padding: 20px;
   transition: all 0.25s ease-in-out;
-}
-
-.hp-glass-card:hover {
-  border-color: rgba(99, 102, 241, 0.3);
-  transform: translateY(-2px);
-  box-shadow: var(--hp-shadow-card), var(--hp-shadow-glow);
 }
 
 /* Metric Display Cards */
 .hp-metric-card {
-  background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.9) 100%);
-  border: 1px solid var(--hp-border-color);
+  background: var(--hp-bg-surface) !important;
+  border: 1px solid var(--hp-border-color) !important;
   border-radius: var(--hp-radius-md);
   padding: 22px;
   display: flex;
@@ -89,7 +122,7 @@ html, body {
   font-size: 2.2rem;
   font-weight: 800;
   letter-spacing: -0.02em;
-  color: #ffffff;
+  color: var(--hp-text-main) !important;
   margin-top: 8px;
 }
 
@@ -98,57 +131,21 @@ html, body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--hp-text-muted);
+  color: var(--hp-text-muted) !important;
 }
 
 /* Code Snippet Styles */
-.hp-code-block {
+.hp-code-block, pre {
   font-family: 'JetBrains Mono', monospace;
-  background-color: #090d16;
-  color: #e2e8f0;
+  background-color: #090d16 !important;
+  color: #38bdf8 !important;
   border-radius: var(--hp-radius-sm);
   padding: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
   font-size: 0.9rem;
   line-height: 1.6;
   white-space: pre-wrap;
   overflow-x: auto;
-}
-
-/* Kanban Board Layout */
-.hp-kanban-column {
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid var(--hp-border-color);
-  border-radius: var(--hp-radius-md);
-  padding: 16px;
-  min-width: 280px;
-  flex: 1;
-}
-
-.hp-kanban-header {
-  font-size: 1rem;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 14px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--hp-border-color);
-}
-
-/* Question Cards */
-.hp-qa-card {
-  background: rgba(30, 41, 59, 0.6);
-  border: 1px solid var(--hp-border-color);
-  border-radius: var(--hp-radius-md);
-  padding: 18px;
-  margin-bottom: 12px;
-  transition: all 0.2s ease;
-}
-
-.hp-qa-card:hover {
-  background: rgba(40, 53, 75, 0.8);
-  border-color: var(--hp-primary);
 }
 
 /* Difficulty & Status Badges */
@@ -164,10 +161,10 @@ html, body {
   gap: 6px;
 }
 
-.hp-badge-easy { background: var(--hp-success-light); color: var(--hp-success); }
-.hp-badge-medium { background: var(--hp-warning-light); color: var(--hp-warning); }
-.hp-badge-hard { background: var(--hp-danger-light); color: var(--hp-danger); }
-.hp-badge-primary { background: var(--hp-primary-light); color: #818cf8; }
+.hp-badge-easy { background: var(--hp-success-light) !important; color: var(--hp-success) !important; }
+.hp-badge-medium { background: var(--hp-warning-light) !important; color: var(--hp-warning) !important; }
+.hp-badge-hard { background: var(--hp-danger-light) !important; color: var(--hp-danger) !important; }
+.hp-badge-primary { background: var(--hp-primary-light) !important; color: #818cf8 !important; }
 
 /* Custom Scrollbars */
 ::-webkit-scrollbar {

@@ -44,7 +44,7 @@ public class ApplicationTrackerView extends VerticalLayout {
         setSizeFull();
         setPadding(true);
         setSpacing(true);
-        getStyle().set("background-color", "#0f172a");
+        getStyle().set("background-color", "var(--hp-bg-primary)");
 
         createHeaderBar();
         createFilterToolbar();
