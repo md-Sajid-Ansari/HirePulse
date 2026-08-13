@@ -8,6 +8,7 @@ import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -57,26 +58,30 @@ public class MainLayout extends AppLayout {
     }
 
     private void createHeader() {
-        // Branding
-        H1 logo = new H1("HirePulse");
-        logo.addClassNames(
+        // Official HirePulse Shield & Pulse Wave Logo Icon
+        Image logoImg = new Image("hirepulse_logo.png", "HirePulse Logo");
+        logoImg.setWidth("38px");
+        logoImg.setHeight("38px");
+        logoImg.getStyle()
+                .set("border-radius", "10px")
+                .set("object-fit", "cover")
+                .set("box-shadow", "0 0 12px rgba(99, 102, 241, 0.4)");
+
+        H1 logoTitle = new H1("HirePulse");
+        logoTitle.addClassNames(
                 LumoUtility.FontSize.LARGE,
                 LumoUtility.Margin.NONE,
                 LumoUtility.FontWeight.BOLD
         );
-        logo.getStyle()
-                .set("background", "linear-gradient(135deg, #6366f1 0%, #a855f7 100%)")
-                .set("-webkit-background-clip", "text")
-                .set("-webkit-text-fill-color", "transparent")
-                .set("letter-spacing", "-0.03em");
+        logoTitle.getStyle()
+                .set("color", "var(--hp-text-main)")
+                .set("font-weight", "800")
+                .set("letter-spacing", "-0.03em")
+                .set("line-height", "1");
 
-        Span subtitle = new Span("CareerVault Platform");
-        subtitle.addClassNames(LumoUtility.FontSize.XXSMALL, LumoUtility.TextColor.SECONDARY);
-        subtitle.getStyle().set("text-transform", "uppercase").set("letter-spacing", "0.08em").set("font-weight", "700");
-
-        VerticalLayout branding = new VerticalLayout(logo, subtitle);
-        branding.setPadding(false);
-        branding.setSpacing(false);
+        HorizontalLayout branding = new HorizontalLayout(logoImg, logoTitle);
+        branding.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
+        branding.getStyle().set("gap", "10px").set("align-items", "center");
 
         // Candidate / Employer Mode Toggle Button
         updateRoleBtnText();
@@ -190,7 +195,7 @@ public class MainLayout extends AppLayout {
 
         nav.addItem(jobsItem, dsaItem, prepItem, companyItem, trackerItem);
 
-        Span navHeader = new Span("NAVIGATION PLATFORM");
+        Span navHeader = new Span("NAVIGATION");
         navHeader.addClassNames(
                 LumoUtility.FontSize.XXSMALL,
                 LumoUtility.TextColor.SECONDARY,
