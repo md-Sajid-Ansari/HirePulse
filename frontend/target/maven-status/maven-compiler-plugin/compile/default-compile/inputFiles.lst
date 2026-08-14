@@ -3,7 +3,9 @@ C:\Users\mdsaj\OneDrive\Desktop\Code\HirePulse\frontend\src\main\java\com\hirepu
 C:\Users\mdsaj\OneDrive\Desktop\Code\HirePulse\frontend\src\main\java\com\hirepulse\frontend\service\MockInterviewService.java
 C:\Users\mdsaj\OneDrive\Desktop\Code\HirePulse\frontend\src\main\java\com\hirepulse\frontend\view\ApplicationTrackerView.java
 C:\Users\mdsaj\OneDrive\Desktop\Code\HirePulse\frontend\src\main\java\com\hirepulse\frontend\model\DsaProblem.java
+C:\Users\mdsaj\OneDrive\Desktop\Code\HirePulse\frontend\src\main\java\com\hirepulse\frontend\view\LoginView.java
 C:\Users\mdsaj\OneDrive\Desktop\Code\HirePulse\frontend\src\main\java\com\hirepulse\frontend\HirePulseFrontendApplication.java
+C:\Users\mdsaj\OneDrive\Desktop\Code\HirePulse\frontend\src\main\java\com\hirepulse\frontend\config\SecurityConfig.java
 C:\Users\mdsaj\OneDrive\Desktop\Code\HirePulse\frontend\src\main\java\com\hirepulse\frontend\view\MockInterviewView.java
 C:\Users\mdsaj\OneDrive\Desktop\Code\HirePulse\frontend\src\main\java\com\hirepulse\frontend\model\DashboardMetrics.java
 C:\Users\mdsaj\OneDrive\Desktop\Code\HirePulse\frontend\src\main\java\com\hirepulse\frontend\model\CompanyProfile.java
@@ -17,11 +19,13 @@ C:\Users\mdsaj\OneDrive\Desktop\Code\HirePulse\frontend\src\main\java\com\hirepu
 C:\Users\mdsaj\OneDrive\Desktop\Code\HirePulse\frontend\src\main\java\com\hirepulse\frontend\model\StudyTask.java
 C:\Users\mdsaj\OneDrive\Desktop\Code\HirePulse\frontend\src\main\java\com\hirepulse\frontend\service\PrepHubService.java
 C:\Users\mdsaj\OneDrive\Desktop\Code\HirePulse\frontend\src\main\java\com\hirepulse\frontend\service\CompanyGuideService.java
+C:\Users\mdsaj\OneDrive\Desktop\Code\HirePulse\frontend\src\main\java\com\hirepulse\frontend\model\User.java
 C:\Users\mdsaj\OneDrive\Desktop\Code\HirePulse\frontend\src\main\java\com\hirepulse\frontend\view\MainLayout.java
 C:\Users\mdsaj\OneDrive\Desktop\Code\HirePulse\frontend\src\main\java\com\hirepulse\frontend\view\PrepHubView.java
 C:\Users\mdsaj\OneDrive\Desktop\Code\HirePulse\frontend\src\main\java\com\hirepulse\frontend\view\JobPortalView.java
 C:\Users\mdsaj\OneDrive\Desktop\Code\HirePulse\frontend\src\main\java\com\hirepulse\frontend\service\DsaSheetService.java
 C:\Users\mdsaj\OneDrive\Desktop\Code\HirePulse\frontend\src\main\java\com\hirepulse\frontend\service\ResumeAlignmentService.java
+C:\Users\mdsaj\OneDrive\Desktop\Code\HirePulse\frontend\src\main\java\com\hirepulse\frontend\service\AuthService.java
 C:\Users\mdsaj\OneDrive\Desktop\Code\HirePulse\frontend\src\main\java\com\hirepulse\frontend\model\JobItem.java
 C:\Users\mdsaj\OneDrive\Desktop\Code\HirePulse\frontend\src\main\java\com\hirepulse\frontend\service\QuestionVaultService.java
 C:\Users\mdsaj\OneDrive\Desktop\Code\HirePulse\frontend\src\main\java\com\hirepulse\frontend\view\DsaSheetView.java

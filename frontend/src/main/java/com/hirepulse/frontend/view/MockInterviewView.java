@@ -14,9 +14,11 @@ import com.vaadin.flow.component.progressbar.ProgressBar;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import jakarta.annotation.security.PermitAll;
 
 import java.util.List;
 
+@PermitAll
 @PageTitle("HirePulse | Mock Interview Quiz")
 @Route(value = "simulator", layout = MainLayout.class)
 public class MockInterviewView extends VerticalLayout {

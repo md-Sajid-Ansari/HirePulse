@@ -1,10 +1,12 @@
 com\hirepulse\frontend\model\JobApplication.class
 com\hirepulse\frontend\view\CompanyGuideView.class
 com\hirepulse\frontend\view\DashboardView.class
+com\hirepulse\frontend\service\AuthService.class
 com\hirepulse\frontend\HirePulseFrontendApplication.class
 com\hirepulse\frontend\model\JobApplication$Status.class
 com\hirepulse\frontend\model\CompanyProfile.class
 com\hirepulse\frontend\service\PrepHubService$BehavioralStory.class
+com\hirepulse\frontend\model\User.class
 com\hirepulse\frontend\model\JobApplication$Priority.class
 com\hirepulse\frontend\service\PrepHubService$TechnicalNote.class
 com\hirepulse\frontend\model\StudyTask.class
@@ -24,7 +26,10 @@ com\hirepulse\frontend\view\MockInterviewView.class
 com\hirepulse\frontend\view\MainLayout.class
 com\hirepulse\frontend\view\ResumeAlignmentView.class
 com\hirepulse\frontend\model\QuestionItem$Difficulty.class
+com\hirepulse\frontend\view\LoginView.class
+com\hirepulse\frontend\config\SecurityConfig.class
 com\hirepulse\frontend\model\DsaProblem.class
+com\hirepulse\frontend\model\User$Role.class
 com\hirepulse\frontend\service\QuestionVaultService.class
 com\hirepulse\frontend\view\PrepHubView.class
 com\hirepulse\frontend\view\JobPortalView.class

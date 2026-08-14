@@ -17,9 +17,11 @@ import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import jakarta.annotation.security.PermitAll;
 
 import java.util.List;
 
+@PermitAll
 @PageTitle("HirePulse | Dedicated DSA Prep Sheet")
 @Route(value = "dsa", layout = MainLayout.class)
 public class DsaSheetView extends VerticalLayout {

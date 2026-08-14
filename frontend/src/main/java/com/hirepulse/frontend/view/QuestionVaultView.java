@@ -19,9 +19,11 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import jakarta.annotation.security.PermitAll;
 
 import java.util.List;
 
+@PermitAll
 @PageTitle("HirePulse | Interview Q&A Vault")
 @Route(value = "vault", layout = MainLayout.class)
 public class QuestionVaultView extends VerticalLayout {

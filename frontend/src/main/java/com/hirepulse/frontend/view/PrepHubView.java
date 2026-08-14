@@ -17,7 +17,9 @@ import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import jakarta.annotation.security.PermitAll;
 
+@PermitAll
 @PageTitle("HirePulse | Technical & Career Prep Hub")
 @Route(value = "prephub", layout = MainLayout.class)
 public class PrepHubView extends VerticalLayout {

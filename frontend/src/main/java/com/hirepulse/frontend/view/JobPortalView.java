@@ -23,12 +23,14 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
+import jakarta.annotation.security.PermitAll;
 
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
-@PageTitle("HirePulse | Job Portal")
+@PermitAll
+@PageTitle("HirePulse | Modern Tech Jobs & Referrals")
 @Route(value = "", layout = MainLayout.class)
 @RouteAlias(value = "jobs", layout = MainLayout.class)
 public class JobPortalView extends VerticalLayout {

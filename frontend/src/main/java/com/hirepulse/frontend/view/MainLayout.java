@@ -1,10 +1,13 @@
 package com.hirepulse.frontend.view;
 
+import com.hirepulse.frontend.model.User;
+import com.hirepulse.frontend.service.AuthService;
 import com.hirepulse.frontend.service.DsaSheetService;
 import com.hirepulse.frontend.service.JobApplicationService;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
+import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.H1;
@@ -20,6 +23,8 @@ import com.vaadin.flow.dom.ThemeList;
 import com.vaadin.flow.theme.lumo.Lumo;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
+import java.util.Optional;
+
 public class MainLayout extends AppLayout {
 
     private static boolean employerMode = false;
@@ -27,14 +32,25 @@ public class MainLayout extends AppLayout {
 
     private final DsaSheetService dsaService;
     private final JobApplicationService applicationService;
+    private final AuthService authService;
 
     private final Button roleToggleBtn = new Button();
     private final Button themeToggleBtn = new Button();
+    private final Button logoutBtn = new Button();
     private final Span headerStat = new Span();
+    private final HorizontalLayout userBadge = new HorizontalLayout();
 
-    public MainLayout(DsaSheetService dsaService, JobApplicationService applicationService) {
+    public MainLayout(DsaSheetService dsaService, JobApplicationService applicationService, AuthService authService) {
         this.dsaService = dsaService;
         this.applicationService = applicationService;
+        this.authService = authService;
+
+        // Auto-configure employer mode based on logged in user role
+        authService.getAuthenticatedUser().ifPresent(user -> {
+            if (user.getRole() == User.Role.EMPLOYER) {
+                employerMode = true;
+            }
+        });
 
         createHeader();
         createDrawer();
@@ -101,6 +117,19 @@ public class MainLayout extends AppLayout {
             updateThemeBtnUI();
         });
 
+        // User Profile Badge
+        setupUserBadge();
+
+        // Logout Button
+        logoutBtn.setText("Sign Out");
+        logoutBtn.setIcon(VaadinIcon.SIGN_OUT.create());
+        logoutBtn.addThemeVariants(ButtonVariant.LUMO_SMALL, ButtonVariant.LUMO_ERROR);
+        logoutBtn.getStyle()
+                .set("border-radius", "20px")
+                .set("font-weight", "700")
+                .set("font-size", "0.78rem");
+        logoutBtn.addClickListener(e -> authService.logout());
+
         // Header Solved Stat Pill
         headerStat.getStyle()
                 .set("background", "rgba(16, 185, 129, 0.15)")
@@ -115,7 +144,13 @@ public class MainLayout extends AppLayout {
                 .set("line-height", "1");
 
         // Header Controls Container aligned perfectly
-        HorizontalLayout headerRight = new HorizontalLayout(roleToggleBtn, themeToggleBtn, headerStat);
+        HorizontalLayout headerRight = new HorizontalLayout(
+                userBadge,
+                roleToggleBtn,
+                themeToggleBtn,
+                headerStat,
+                logoutBtn
+        );
         headerRight.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
         headerRight.setSpacing(true);
         headerRight.getStyle().set("align-items", "center");
@@ -137,6 +172,47 @@ public class MainLayout extends AppLayout {
                 .set("transition", "background-color 0.25s ease");
 
         addToNavbar(header);
+    }
+
+    private void setupUserBadge() {
+        userBadge.removeAll();
+        userBadge.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
+        userBadge.setSpacing(true);
+
+        Optional<User> userOpt = authService.getAuthenticatedUser();
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            Avatar avatar = new Avatar(user.getFullName(), user.getAvatarUrl());
+            avatar.setWidth("32px");
+            avatar.setHeight("32px");
+
+            Span nameSpan = new Span(user.getFullName());
+            nameSpan.getStyle()
+                    .set("font-weight", "700")
+                    .set("font-size", "0.82rem")
+                    .set("color", "var(--hp-text-main)");
+
+            Span roleSpan = new Span(user.getRole().getIcon() + " " + user.getRole().name());
+            roleSpan.getStyle()
+                    .set("background", "rgba(99, 102, 241, 0.15)")
+                    .set("color", "#818cf8")
+                    .set("border", "1px solid rgba(99, 102, 241, 0.3)")
+                    .set("padding", "2px 8px")
+                    .set("border-radius", "12px")
+                    .set("font-size", "0.7rem")
+                    .set("font-weight", "800");
+
+            VerticalLayout infoLayout = new VerticalLayout(nameSpan, roleSpan);
+            infoLayout.setPadding(false);
+            infoLayout.setSpacing(false);
+
+            userBadge.add(avatar, infoLayout);
+            userBadge.getStyle()
+                    .set("background", "rgba(255, 255, 255, 0.05)")
+                    .set("padding", "4px 12px")
+                    .set("border-radius", "20px")
+                    .set("border", "1px solid rgba(255, 255, 255, 0.1)");
+        }
     }
 
     private void updateRoleBtnText() {

@@ -17,9 +17,11 @@ import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import jakarta.annotation.security.PermitAll;
 
 import java.util.List;
 
+@PermitAll
 @PageTitle("HirePulse | Daily Study Planner")
 @Route(value = "planner", layout = MainLayout.class)
 public class StudyPlannerView extends VerticalLayout {

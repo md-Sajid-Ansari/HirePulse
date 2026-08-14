@@ -14,10 +14,12 @@ import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import jakarta.annotation.security.PermitAll;
 
 import java.util.List;
 import java.util.Map;
 
+@PermitAll
 @PageTitle("HirePulse | Companies Hiring Guide")
 @Route(value = "company-guide", layout = MainLayout.class)
 public class CompanyGuideView extends VerticalLayout {
