@@ -52,7 +52,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
         // Apply luxury ambient dark background
         getStyle()
-                .set("background", "radial-gradient(circle at 50% 25%, #1e1b4b 0%, #0f172a 60%, #020617 100%)")
+                .set("background", "radial-gradient(circle at 50% -10%, #1e1b4b 0%, #0f172a 55%, #070a12 100%) fixed")
                 .set("font-family", "'Inter', sans-serif")
                 .set("min-height", "100vh")
                 .set("padding", "20px");
@@ -63,7 +63,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
     private void createUI() {
         // Main Glassmorphic Container Card
         VerticalLayout container = new VerticalLayout();
-        container.setMaxWidth("460px");
+        container.setMaxWidth("500px");
         container.setWidth("100%");
         container.setSpacing(true);
         container.setPadding(true);
@@ -322,7 +322,11 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
         FormLayout form = new FormLayout();
         form.add(fullNameField, emailField, usernameField, passwordField, roleCombo);
-        form.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 1));
+        form.setResponsiveSteps(
+                new FormLayout.ResponsiveStep("0", 1),
+                new FormLayout.ResponsiveStep("360px", 2)
+        );
+        form.setColspan(roleCombo, 2);
 
         registerCard.add(form, registerBtn);
     }

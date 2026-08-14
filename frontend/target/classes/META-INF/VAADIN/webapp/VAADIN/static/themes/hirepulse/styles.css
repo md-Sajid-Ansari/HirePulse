@@ -64,11 +64,17 @@
   --hp-shadow-glow: 0 0 15px rgba(99, 102, 241, 0.15);
 }
 
-/* Global Application background & text transition across whole website */
+/* Global Application background & text transition across whole webpage */
 html, body, vaadin-app-layout, [part="content"], main, .main-content {
-  background-color: var(--hp-bg-primary) !important;
+  background: radial-gradient(circle at 50% -10%, #1e1b4b 0%, #0f172a 55%, #070a12 100%) fixed !important;
   color: var(--hp-text-main) !important;
-  transition: background-color 0.25s ease, color 0.25s ease;
+  transition: background 0.3s ease, color 0.3s ease;
+  min-height: 100vh;
+}
+
+[theme~="light"], html[theme~="light"], [theme~="light"] vaadin-app-layout, [theme~="light"] [part="content"], [theme~="light"] main {
+  background: radial-gradient(circle at 50% -10%, #e0e7ff 0%, #f1f5f9 60%, #f8fafc 100%) fixed !important;
+  color: #0f172a !important;
 }
 
 /* All headings and text paragraphs */
@@ -181,3 +187,37 @@ p, span, div, li, td, th {
 ::-webkit-scrollbar-thumb:hover {
   background: #475569;
 }
+
+/* Login Container Frame & Glassmorphism Styling */
+.login-frame-card {
+  background: rgba(15, 23, 42, 0.85) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 30px rgba(99, 102, 241, 0.2) !important;
+}
+
+vaadin-login-form-wrapper, [part="form"] {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  padding: 0 !important;
+}
+
+/* Compact Form Fields & Inputs */
+vaadin-text-field::part(input-field),
+vaadin-password-field::part(input-field),
+vaadin-email-field::part(input-field),
+vaadin-combo-box::part(input-field) {
+  background: rgba(30, 41, 59, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 12px !important;
+  color: #f8fafc !important;
+}
+
+vaadin-form-item {
+  padding: 2px 0 !important;
+}
+
+

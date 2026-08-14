@@ -1,0 +1,20 @@
+:host {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  padding: 0 !important;
+}
+
+[part="form"] {
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+[part="form-title"] {
+  display: none !important;
+}
+
+#vaadin-login-submit {
+  width: 100% !important;
+  margin-top: 16px !important;
+}
