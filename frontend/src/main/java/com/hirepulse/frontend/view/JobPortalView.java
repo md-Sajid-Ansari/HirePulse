@@ -20,6 +20,8 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.component.upload.Upload;
+import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -42,7 +44,7 @@ public class JobPortalView extends VerticalLayout {
     private final TextField searchField = new TextField();
     private final ComboBox<String> categoryFilter = new ComboBox<>("Category");
     private final ComboBox<String> expFilter = new ComboBox<>("Experience");
-    private final VerticalLayout jobsContainer = new VerticalLayout();
+    private final Div jobsContainer = new Div();
 
     public JobPortalView(JobService jobService, JobApplicationService applicationService) {
         this.jobService = jobService;
@@ -57,8 +59,11 @@ public class JobPortalView extends VerticalLayout {
         createFilterToolbar();
         
         jobsContainer.setWidthFull();
-        jobsContainer.setPadding(false);
-        jobsContainer.setSpacing(true);
+        jobsContainer.getStyle()
+                .set("display", "grid")
+                .set("grid-template-columns", "repeat(auto-fill, minmax(420px, 1fr))")
+                .set("gap", "20px")
+                .set("margin-top", "12px");
         add(jobsContainer);
 
         refreshJobs();
@@ -137,23 +142,35 @@ public class JobPortalView extends VerticalLayout {
         VerticalLayout card = new VerticalLayout();
         card.setWidthFull();
         card.getStyle()
-                .set("background", "var(--hp-bg-card)")
-                .set("border", "1px solid var(--hp-border-color)")
-                .set("border-radius", "16px")
-                .set("padding", "22px")
-                .set("margin-bottom", "12px");
+                .set("background", "linear-gradient(135deg, #1e1e2d 0%, #151521 100%)")
+                .set("border", "1px solid rgba(139, 92, 246, 0.35)")
+                .set("box-shadow", "0 12px 30px -6px rgba(0, 0, 0, 0.6)")
+                .set("border-radius", "18px")
+                .set("padding", "24px")
+                .set("height", "100%")
+                .set("display", "flex")
+                .set("flex-direction", "column")
+                .set("justify-content", "space-between")
+                .set("transition", "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)")
+                .set("cursor", "pointer");
+
+        // Hover effect script
+        card.getElement().executeJs(
+                "this.addEventListener('mouseenter', () => { this.style.transform = 'translateY(-6px)'; this.style.boxShadow = '0 20px 40px -8px rgba(124, 58, 237, 0.4), 0 0 25px rgba(6, 182, 212, 0.3)'; this.style.borderColor = 'rgba(6, 182, 212, 0.75)'; });" +
+                "this.addEventListener('mouseleave', () => { this.style.transform = 'translateY(0)'; this.style.boxShadow = '0 12px 30px -6px rgba(0, 0, 0, 0.6)'; this.style.borderColor = 'rgba(139, 92, 246, 0.35)'; });"
+        );
 
         // Top Header
         Image logo = new Image(job.getLogo(), job.getCompany());
-        logo.setWidth("42px");
-        logo.setHeight("42px");
-        logo.getStyle().set("border-radius", "8px").set("object-fit", "contain").set("background", "#ffffff").set("padding", "4px");
+        logo.setWidth("44px");
+        logo.setHeight("44px");
+        logo.getStyle().set("border-radius", "10px").set("object-fit", "contain").set("background", "#ffffff").set("padding", "4px").set("box-shadow", "0 4px 10px rgba(0,0,0,0.3)");
 
         H3 title = new H3(job.getTitle());
-        title.getStyle().set("color", "#ffffff").set("font-size", "1.15rem").set("font-weight", "800").set("margin", "0");
+        title.getStyle().set("color", "#ffffff").set("font-size", "1.2rem").set("font-weight", "800").set("margin", "0");
 
         Span company = new Span(job.getCompany() + " • " + job.getLocation());
-        company.getStyle().set("color", "#94a3b8").set("font-size", "0.85rem").set("font-weight", "600");
+        company.getStyle().set("color", "#a1a1aa").set("font-size", "0.85rem").set("font-weight", "600");
 
         VerticalLayout info = new VerticalLayout(title, company);
         info.setPadding(false);
@@ -161,12 +178,14 @@ public class JobPortalView extends VerticalLayout {
 
         Span salaryBadge = new Span(job.getSalary());
         salaryBadge.getStyle()
-                .set("background", "rgba(16, 185, 129, 0.15)")
-                .set("color", "#10b981")
-                .set("padding", "5px 12px")
-                .set("border-radius", "12px")
-                .set("font-weight", "700")
-                .set("font-size", "0.85rem");
+                .set("background", "linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(6, 182, 212, 0.2) 100%)")
+                .set("color", "#34d399")
+                .set("border", "1px solid rgba(52, 211, 153, 0.4)")
+                .set("padding", "6px 14px")
+                .set("border-radius", "14px")
+                .set("font-weight", "800")
+                .set("font-size", "0.88rem")
+                .set("box-shadow", "0 0 12px rgba(52, 211, 153, 0.2)");
 
         HorizontalLayout topRow = new HorizontalLayout(logo, info, salaryBadge);
         topRow.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
@@ -175,29 +194,42 @@ public class JobPortalView extends VerticalLayout {
 
         // Skill Tags
         HorizontalLayout skillRow = new HorizontalLayout();
+        skillRow.setWidthFull();
+        skillRow.getStyle()
+                .set("flex-wrap", "wrap")
+                .set("gap", "6px 8px")
+                .set("margin", "6px 0");
+
         for (String skill : job.getSkills()) {
             Span tag = new Span(skill);
             tag.getStyle()
-                    .set("background", "rgba(99, 102, 241, 0.15)")
-                    .set("color", "#818cf8")
-                    .set("padding", "3px 10px")
-                    .set("border-radius", "10px")
-                    .set("font-size", "0.75rem")
-                    .set("font-weight", "600");
+                    .set("background", "rgba(124, 58, 237, 0.2)")
+                    .set("color", "#c084fc")
+                    .set("border", "1px solid rgba(192, 132, 252, 0.35)")
+                    .set("padding", "4px 12px")
+                    .set("border-radius", "12px")
+                    .set("font-size", "0.78rem")
+                    .set("font-weight", "700");
             skillRow.add(tag);
         }
 
         // Description snippet
         Paragraph desc = new Paragraph(job.getDescription());
-        desc.getStyle().set("color", "#cbd5e1").set("font-size", "0.9rem").set("line-height", "1.5").set("margin", "8px 0");
+        desc.getStyle().set("color", "#e4e4e7").set("font-size", "0.92rem").set("line-height", "1.55").set("margin", "10px 0");
 
         // Actions
         Button detailsBtn = new Button("View Full Details", VaadinIcon.INFO_CIRCLE.create(), e -> openJobDetailsDialog(job));
         detailsBtn.addThemeVariants(ButtonVariant.LUMO_TERTIARY, ButtonVariant.LUMO_SMALL);
+        detailsBtn.getStyle().set("color", "#38bdf8").set("font-weight", "700");
 
         Button applyBtn = new Button("Apply Now 🚀", e -> openApplyModal(job));
         applyBtn.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SMALL);
-        applyBtn.getStyle().set("background", "linear-gradient(135deg, #00b4d8 0%, #0077b6 100%)");
+        applyBtn.getStyle()
+                .set("background", "linear-gradient(135deg, #06b6d4 0%, #6366f1 100%)")
+                .set("color", "#ffffff")
+                .set("font-weight", "800")
+                .set("border-radius", "10px")
+                .set("box-shadow", "0 4px 14px rgba(6, 182, 212, 0.4)");
 
         HorizontalLayout actions = new HorizontalLayout(detailsBtn, applyBtn);
         actions.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
@@ -244,16 +276,46 @@ public class JobPortalView extends VerticalLayout {
         experienceField.setPlaceholder("e.g. 1.5 Years");
         experienceField.setWidthFull();
 
-        TextArea resumeLinkArea = new TextArea("Resume Link / Highlights");
-        resumeLinkArea.setPlaceholder("Paste Google Drive / GitHub resume link or key skill summary...");
-        resumeLinkArea.setWidthFull();
-        resumeLinkArea.setHeight("90px");
+        // PDF Resume Drag & Drop Upload Zone
+        Span uploadLabel = new Span("Upload PDF Resume File * (PDF / DOCX)");
+        uploadLabel.getStyle()
+                .set("font-weight", "700")
+                .set("font-size", "0.85rem")
+                .set("color", "var(--lumo-header-text-color, #0f172a)")
+                .set("margin-top", "6px");
+
+        MemoryBuffer buffer = new MemoryBuffer();
+        Upload pdfUpload = new Upload(buffer);
+        pdfUpload.setAcceptedFileTypes("application/pdf", ".pdf", ".docx");
+        pdfUpload.setMaxFiles(1);
+        pdfUpload.setDropLabel(new Span("📄 Drag & Drop PDF Resume File here (or Click to Browse)"));
+        pdfUpload.setWidthFull();
+
+        final String[] uploadedFileName = new String[]{""};
+        pdfUpload.addSucceededListener(event -> {
+            uploadedFileName[0] = event.getFileName();
+            Notification n = Notification.show("✅ PDF Resume uploaded: " + event.getFileName(), 3000, Notification.Position.BOTTOM_END);
+            n.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+        });
+
+        TextField resumeNotesArea = new TextField("Key Skill Summary / Portfolio Link");
+        resumeNotesArea.setPlaceholder("Paste Google Drive / GitHub resume link or key skill summary...");
+        resumeNotesArea.setWidthFull();
 
         // Submit Button
         Button submitBtn = new Button("Submit Job Application", e -> {
             if (fullNameField.getValue().isEmpty() || emailField.getValue().isEmpty()) {
                 Notification.show("Please complete required fields (*)", 3000, Notification.Position.MIDDLE);
                 return;
+            }
+
+            String finalResumeInfo;
+            if (!uploadedFileName[0].isEmpty()) {
+                finalResumeInfo = "📄 " + uploadedFileName[0] + (resumeNotesArea.getValue().isEmpty() ? "" : " | " + resumeNotesArea.getValue());
+            } else if (!resumeNotesArea.getValue().isEmpty()) {
+                finalResumeInfo = resumeNotesArea.getValue();
+            } else {
+                finalResumeInfo = "📄 Candidate_Resume.pdf";
             }
 
             JobApplication app = new JobApplication(
@@ -265,12 +327,12 @@ public class JobPortalView extends VerticalLayout {
                     job.getSalary(),
                     LocalDate.now(),
                     "Recruiting Team",
-                    "Submitted via Apply Modal",
+                    "Submitted via Job Modal",
                     Priority.HIGH,
                     fullNameField.getValue(),
                     emailField.getValue(),
                     experienceField.getValue(),
-                    resumeLinkArea.getValue()
+                    finalResumeInfo
             );
 
             applicationService.save(app);
@@ -291,7 +353,7 @@ public class JobPortalView extends VerticalLayout {
                 .set("margin-top", "16px");
 
         VerticalLayout modalContent = new VerticalLayout(
-                headerRow, fullNameField, emailField, experienceField, resumeLinkArea, submitBtn
+                headerRow, fullNameField, emailField, experienceField, uploadLabel, pdfUpload, resumeNotesArea, submitBtn
         );
         modalContent.setPadding(true);
         modalContent.setSpacing(true);
@@ -302,46 +364,159 @@ public class JobPortalView extends VerticalLayout {
 
     private void openJobDetailsDialog(JobItem job) {
         Dialog dialog = new Dialog();
-        dialog.setHeaderTitle(job.getTitle() + " — " + job.getCompany());
-        dialog.setWidth("650px");
+        dialog.setWidth("780px");
 
-        VerticalLayout content = new VerticalLayout();
-        content.setPadding(false);
+        // Header Card Container
+        Image logo = new Image(job.getLogo(), job.getCompany());
+        logo.setWidth("48px");
+        logo.setHeight("48px");
+        logo.getStyle().set("border-radius", "10px").set("object-fit", "contain").set("background", "#ffffff").set("padding", "4px");
 
-        H4 descTitle = new H4("Role Overview");
-        descTitle.getStyle().set("color", "#ffffff");
-        Paragraph desc = new Paragraph(job.getDescription());
-        desc.getStyle().set("color", "#cbd5e1");
+        H3 modalTitle = new H3(job.getTitle());
+        modalTitle.getStyle().set("color", "var(--lumo-header-text-color, #0f172a)").set("font-size", "1.35rem").set("font-weight", "800").set("margin", "0");
 
-        H4 respTitle = new H4("Key Responsibilities");
-        respTitle.getStyle().set("color", "#ffffff");
-        UnorderedList respList = new UnorderedList();
-        for (String r : job.getResponsibilities()) respList.add(new ListItem(r));
-        respList.getStyle().set("color", "#cbd5e1");
+        Span companySub = new Span(job.getCompany() + " • " + job.getLocation());
+        companySub.getStyle().set("color", "#64748b").set("font-size", "0.9rem").set("font-weight", "600");
 
-        H4 reqTitle = new H4("Requirements & Eligibility");
-        reqTitle.getStyle().set("color", "#ffffff");
-        UnorderedList reqList = new UnorderedList();
-        for (String r : job.getRequirements()) reqList.add(new ListItem(r));
-        reqList.getStyle().set("color", "#cbd5e1");
+        VerticalLayout headerText = new VerticalLayout(modalTitle, companySub);
+        headerText.setPadding(false);
+        headerText.setSpacing(false);
 
-        H4 perkTitle = new H4("Perks & Benefits");
-        perkTitle.getStyle().set("color", "#ffffff");
-        UnorderedList perkList = new UnorderedList();
-        for (String p : job.getPerks()) perkList.add(new ListItem(p));
-        perkList.getStyle().set("color", "#10b981");
+        Span salaryBadge = new Span(job.getSalary());
+        salaryBadge.getStyle()
+                .set("background", "rgba(16, 185, 129, 0.15)")
+                .set("color", "#10b981")
+                .set("padding", "6px 14px")
+                .set("border-radius", "14px")
+                .set("font-weight", "700")
+                .set("font-size", "0.9rem");
 
-        content.add(descTitle, desc, respTitle, respList, reqTitle, reqList, perkTitle, perkList);
+        Button closeBtn = new Button(VaadinIcon.CLOSE.create(), e -> dialog.close());
+        closeBtn.addThemeVariants(ButtonVariant.LUMO_TERTIARY, ButtonVariant.LUMO_ICON);
+        closeBtn.getStyle().set("color", "#94a3b8");
 
-        Button applyBtn = new Button("Apply Now", e -> {
+        HorizontalLayout topHeader = new HorizontalLayout(logo, headerText, salaryBadge, closeBtn);
+        topHeader.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
+        topHeader.expand(headerText);
+        topHeader.setWidthFull();
+
+        // Skill Tags Pill Bar
+        HorizontalLayout skillRow = new HorizontalLayout();
+        skillRow.setWidthFull();
+        skillRow.getStyle()
+                .set("flex-wrap", "wrap")
+                .set("gap", "6px 8px")
+                .set("margin", "6px 0");
+
+        for (String skill : job.getSkills()) {
+            Span tag = new Span(skill);
+            tag.getStyle()
+                    .set("background", "rgba(99, 102, 241, 0.12)")
+                    .set("color", "#6366f1")
+                    .set("padding", "4px 12px")
+                    .set("border-radius", "10px")
+                    .set("font-size", "0.8rem")
+                    .set("font-weight", "700");
+            skillRow.add(tag);
+        }
+
+        // 2-Column Grid Layout for Section Cards
+        Div cardsGrid = new Div();
+        cardsGrid.setWidthFull();
+        cardsGrid.getStyle()
+                .set("display", "grid")
+                .set("grid-template-columns", "repeat(2, 1fr)")
+                .set("gap", "14px")
+                .set("margin-top", "10px");
+
+        VerticalLayout roleCard = createModalSectionCard("📌 Role Overview", job.getDescription(), "#3b82f6");
+        VerticalLayout respCard = createModalListCard("🎯 Key Responsibilities", job.getResponsibilities(), "#6366f1");
+        VerticalLayout reqCard = createModalListCard("🎓 Requirements & Eligibility", job.getRequirements(), "#8b5cf6");
+        VerticalLayout perkCard = createModalListCard("🎁 Perks & Benefits", job.getPerks(), "#10b981");
+
+        cardsGrid.add(roleCard, respCard, reqCard, perkCard);
+
+        VerticalLayout contentLayout = new VerticalLayout(topHeader, skillRow, cardsGrid);
+        contentLayout.setPadding(true);
+        contentLayout.setSpacing(true);
+        contentLayout.getStyle().set("max-height", "78vh").set("overflow-y", "auto");
+
+        // Footer Action Bar
+        Button applyBtn = new Button("Apply Now 🚀", e -> {
             dialog.close();
             openApplyModal(job);
         });
         applyBtn.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        applyBtn.setWidthFull();
+        applyBtn.getStyle()
+                .set("background", "linear-gradient(135deg, #00b4d8 0%, #0077b6 100%)")
+                .set("color", "#ffffff")
+                .set("font-weight", "700")
+                .set("font-size", "1rem")
+                .set("border-radius", "10px")
+                .set("padding", "12px");
 
-        dialog.getFooter().add(new Button("Close", e -> dialog.close()), applyBtn);
-        dialog.add(content);
+        dialog.add(contentLayout);
+        dialog.getFooter().add(applyBtn);
         dialog.open();
+    }
+
+    private VerticalLayout createModalSectionCard(String titleText, String bodyText, String accentColor) {
+        VerticalLayout section = new VerticalLayout();
+        section.setWidthFull();
+        section.getStyle()
+                .set("background", "rgba(255, 255, 255, 0.04)")
+                .set("border-left", "4px solid " + accentColor)
+                .set("border-radius", "8px")
+                .set("padding", "14px 18px")
+                .set("margin-top", "4px")
+                .set("transition", "transform 0.2s ease, box-shadow 0.2s ease");
+
+        section.getElement().executeJs(
+                "this.addEventListener('mouseenter', () => { this.style.transform = 'translateY(-2px)'; this.style.boxShadow = '0 6px 16px rgba(0,0,0,0.2)'; });" +
+                "this.addEventListener('mouseleave', () => { this.style.transform = 'translateY(0)'; this.style.boxShadow = 'none'; });"
+        );
+
+        H4 title = new H4(titleText);
+        title.getStyle().set("margin", "0 0 6px 0").set("font-size", "0.95rem").set("font-weight", "700").set("color", "var(--lumo-header-text-color, #0f172a)");
+
+        Paragraph body = new Paragraph(bodyText);
+        body.getStyle().set("margin", "0").set("font-size", "0.9rem").set("line-height", "1.55").set("color", "var(--lumo-body-text-color, #475569)");
+
+        section.add(title, body);
+        return section;
+    }
+
+    private VerticalLayout createModalListCard(String titleText, Iterable<String> items, String accentColor) {
+        VerticalLayout section = new VerticalLayout();
+        section.setWidthFull();
+        section.getStyle()
+                .set("background", "rgba(255, 255, 255, 0.04)")
+                .set("border-left", "4px solid " + accentColor)
+                .set("border-radius", "8px")
+                .set("padding", "14px 18px")
+                .set("margin-top", "4px")
+                .set("transition", "transform 0.2s ease, box-shadow 0.2s ease");
+
+        section.getElement().executeJs(
+                "this.addEventListener('mouseenter', () => { this.style.transform = 'translateY(-2px)'; this.style.boxShadow = '0 6px 16px rgba(0,0,0,0.2)'; });" +
+                "this.addEventListener('mouseleave', () => { this.style.transform = 'translateY(0)'; this.style.boxShadow = 'none'; });"
+        );
+
+        H4 title = new H4(titleText);
+        title.getStyle().set("margin", "0 0 6px 0").set("font-size", "0.95rem").set("font-weight", "700").set("color", "var(--lumo-header-text-color, #0f172a)");
+
+        UnorderedList list = new UnorderedList();
+        list.getStyle().set("margin", "0").set("padding-left", "20px").set("font-size", "0.9rem").set("line-height", "1.55").set("color", "var(--lumo-body-text-color, #475569)");
+
+        if (items != null) {
+            for (String item : items) {
+                list.add(new ListItem(item));
+            }
+        }
+
+        section.add(title, list);
+        return section;
     }
 
     private void openPostJobDialog() {

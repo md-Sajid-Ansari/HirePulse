@@ -27,6 +27,8 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.component.upload.Upload;
+import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -339,10 +341,25 @@ public class ApplicationTrackerView extends VerticalLayout {
         ComboBox<Status> statusCombo = new ComboBox<>("Status *", Status.values());
         statusCombo.setItemLabelGenerator(Status::getLabel);
         DatePicker appliedDatePicker = new DatePicker("Applied Date", LocalDate.now());
-        TextArea resumeField = new TextArea("Resume Link / Highlights");
+        MemoryBuffer buffer = new MemoryBuffer();
+        Upload pdfUpload = new Upload(buffer);
+        pdfUpload.setAcceptedFileTypes("application/pdf", ".pdf", ".docx");
+        pdfUpload.setMaxFiles(1);
+        pdfUpload.setDropLabel(new Span("📄 Drag & Drop PDF Resume File here (or Click to Browse)"));
+        pdfUpload.setWidthFull();
 
-        form.add(nameField, emailField, expField, companyField, positionField, statusCombo, appliedDatePicker, resumeField);
+        final String[] uploadedFileName = new String[]{""};
+        pdfUpload.addSucceededListener(event -> {
+            uploadedFileName[0] = event.getFileName();
+            Notification n = Notification.show("✅ PDF Resume uploaded: " + event.getFileName(), 3000, Notification.Position.BOTTOM_END);
+            n.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+        });
+
+        TextField resumeField = new TextField("Resume Link / Portfolio / Highlights");
+
+        form.add(nameField, emailField, expField, companyField, positionField, statusCombo, appliedDatePicker, pdfUpload, resumeField);
         form.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 2));
+        form.setColspan(pdfUpload, 2);
         form.setColspan(resumeField, 2);
 
         if (existingApp != null) {
@@ -375,7 +392,16 @@ public class ApplicationTrackerView extends VerticalLayout {
             app.setPosition(positionField.getValue());
             app.setStatus(statusCombo.getValue());
             app.setAppliedDate(appliedDatePicker.getValue());
-            app.setResumeLink(resumeField.getValue());
+
+            String finalResumeInfo;
+            if (!uploadedFileName[0].isEmpty()) {
+                finalResumeInfo = "📄 " + uploadedFileName[0] + (resumeField.getValue().isEmpty() ? "" : " | " + resumeField.getValue());
+            } else if (!resumeField.getValue().isEmpty()) {
+                finalResumeInfo = resumeField.getValue();
+            } else {
+                finalResumeInfo = app.getResumeLink() != null ? app.getResumeLink() : "📄 Candidate_Resume.pdf";
+            }
+            app.setResumeLink(finalResumeInfo);
 
             applicationService.save(app);
             refreshGrid();

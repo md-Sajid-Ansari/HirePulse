@@ -16,6 +16,7 @@ import '@vaadin/vertical-layout/theme/lumo/vaadin-vertical-layout.js';
 import '@vaadin/horizontal-layout/theme/lumo/vaadin-horizontal-layout.js';
 import '@vaadin/grid/theme/lumo/vaadin-grid-column-group.js';
 import '@vaadin/icon/theme/lumo/vaadin-icon.js';
+import '@vaadin/upload/theme/lumo/vaadin-upload.js';
 import '@vaadin/side-nav/theme/lumo/vaadin-side-nav-item.js';
 import '@vaadin/context-menu/theme/lumo/vaadin-context-menu.js';
 import 'Frontend/generated/jar-resources/contextMenuConnector.js';

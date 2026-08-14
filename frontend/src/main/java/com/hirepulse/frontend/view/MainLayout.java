@@ -117,19 +117,6 @@ public class MainLayout extends AppLayout {
             updateThemeBtnUI();
         });
 
-        // User Profile Badge
-        setupUserBadge();
-
-        // Logout Button
-        logoutBtn.setText("Sign Out");
-        logoutBtn.setIcon(VaadinIcon.SIGN_OUT.create());
-        logoutBtn.addThemeVariants(ButtonVariant.LUMO_SMALL, ButtonVariant.LUMO_ERROR);
-        logoutBtn.getStyle()
-                .set("border-radius", "20px")
-                .set("font-weight", "700")
-                .set("font-size", "0.78rem");
-        logoutBtn.addClickListener(e -> authService.logout());
-
         // Header Solved Stat Pill
         headerStat.getStyle()
                 .set("background", "rgba(16, 185, 129, 0.15)")
@@ -148,8 +135,7 @@ public class MainLayout extends AppLayout {
                 userBadge,
                 roleToggleBtn,
                 themeToggleBtn,
-                headerStat,
-                logoutBtn
+                headerStat
         );
         headerRight.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
         headerRight.setSpacing(true);
@@ -282,10 +268,23 @@ public class MainLayout extends AppLayout {
         );
         navHeader.getStyle().set("letter-spacing", "0.08em").set("font-weight", "800");
 
-        VerticalLayout drawerLayout = new VerticalLayout(navHeader, nav);
+        // Drawer Logout / Sign Out Button
+        logoutBtn.setText("Sign Out");
+        logoutBtn.setIcon(VaadinIcon.SIGN_OUT.create());
+        logoutBtn.addThemeVariants(ButtonVariant.LUMO_ERROR, ButtonVariant.LUMO_PRIMARY);
+        logoutBtn.setWidthFull();
+        logoutBtn.getStyle()
+                .set("border-radius", "14px")
+                .set("font-weight", "700")
+                .set("font-size", "0.9rem")
+                .set("margin-top", "auto");
+        logoutBtn.addClickListener(e -> authService.logout());
+
+        VerticalLayout drawerLayout = new VerticalLayout(navHeader, nav, logoutBtn);
         drawerLayout.setPadding(true);
         drawerLayout.setSpacing(true);
         drawerLayout.setSizeFull();
+        drawerLayout.expand(nav);
         drawerLayout.getStyle()
                 .set("background-color", "var(--hp-bg-surface)")
                 .set("transition", "background-color 0.25s ease");

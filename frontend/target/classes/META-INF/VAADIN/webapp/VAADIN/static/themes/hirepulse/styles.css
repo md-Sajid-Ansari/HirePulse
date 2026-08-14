@@ -3,30 +3,30 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root, [theme~="dark"] {
-  --hp-bg-primary: #0f172a;
-  --hp-bg-surface: #1e293b;
-  --hp-bg-card: rgba(30, 41, 59, 0.75);
-  --hp-bg-card-hover: rgba(51, 65, 85, 0.85);
-  --hp-border-color: rgba(255, 255, 255, 0.1);
+  --hp-bg-primary: #090d16;
+  --hp-bg-surface: #111827;
+  --hp-bg-card: rgba(17, 24, 39, 0.85);
+  --hp-bg-card-hover: rgba(31, 41, 55, 0.9);
+  --hp-border-color: rgba(99, 102, 241, 0.22);
   
   --hp-primary: #6366f1;
   --hp-primary-hover: #4f46e5;
-  --hp-primary-light: rgba(99, 102, 241, 0.15);
+  --hp-primary-light: rgba(99, 102, 241, 0.18);
   
-  --hp-accent: #8b5cf6;
+  --hp-accent: #00b4d8;
   --hp-success: #10b981;
-  --hp-success-light: rgba(16, 185, 129, 0.15);
+  --hp-success-light: rgba(16, 185, 129, 0.18);
   --hp-warning: #f59e0b;
-  --hp-warning-light: rgba(245, 158, 11, 0.15);
+  --hp-warning-light: rgba(245, 158, 11, 0.18);
   --hp-danger: #ef4444;
-  --hp-danger-light: rgba(239, 68, 68, 0.15);
+  --hp-danger-light: rgba(239, 68, 68, 0.18);
   --hp-info: #06b6d4;
   
   --hp-text-main: #f8fafc;
   --hp-text-muted: #94a3b8;
   --hp-text-dim: #64748b;
 
-  --lumo-base-color: #0f172a;
+  --lumo-base-color: #090d16;
   --lumo-body-text-color: #f8fafc;
   --lumo-header-text-color: #ffffff;
   --lumo-secondary-text-color: #94a3b8;
@@ -34,12 +34,12 @@
   --lumo-contrast-10pct: rgba(255, 255, 255, 0.1);
   
   --hp-radius-sm: 8px;
-  --hp-radius-md: 12px;
-  --hp-radius-lg: 18px;
+  --hp-radius-md: 14px;
+  --hp-radius-lg: 20px;
   --hp-radius-pill: 9999px;
   
-  --hp-shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
-  --hp-shadow-glow: 0 0 20px rgba(99, 102, 241, 0.25);
+  --hp-shadow-card: 0 12px 30px -5px rgba(0, 0, 0, 0.5), 0 8px 12px -6px rgba(0, 0, 0, 0.4);
+  --hp-shadow-glow: 0 0 25px rgba(99, 102, 241, 0.35);
 }
 
 [theme~="light"], html[theme~="light"] {
