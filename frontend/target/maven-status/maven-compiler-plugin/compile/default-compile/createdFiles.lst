@@ -1,5 +1,6 @@
 com\hirepulse\frontend\view\CompanyGuideView.class
 com\hirepulse\frontend\view\DashboardView.class
+com\hirepulse\frontend\service\EmailNotificationService$SentEmailLog.class
 com\hirepulse\frontend\service\PrepHubService$TechnicalNote.class
 com\hirepulse\frontend\service\ResumeAlignmentService.class
 com\hirepulse\frontend\service\DsaSheetService.class
@@ -19,9 +20,11 @@ com\hirepulse\frontend\model\CompanyProfile$RoundStep.class
 com\hirepulse\frontend\service\JobApplicationService.class
 com\hirepulse\frontend\model\JobApplication.class
 com\hirepulse\frontend\service\AuthService.class
+com\hirepulse\frontend\service\EmailNotificationService.class
 com\hirepulse\frontend\HirePulseFrontendApplication.class
 com\hirepulse\frontend\model\JobApplication$Status.class
 com\hirepulse\frontend\model\CompanyProfile.class
+com\hirepulse\frontend\service\ResumeAlignmentService$ATSDashboardResult.class
 com\hirepulse\frontend\service\PrepHubService$BehavioralStory.class
 com\hirepulse\frontend\model\User.class
 com\hirepulse\frontend\model\JobApplication$Priority.class

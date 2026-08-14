@@ -102,9 +102,11 @@ public class JobApplicationService {
         if (query == null || query.trim().isEmpty()) return getAllApplications();
         String lower = query.toLowerCase();
         return applications.stream()
-                .filter(app -> app.getCompany().toLowerCase().contains(lower) ||
-                               app.getPosition().toLowerCase().contains(lower) ||
-                               app.getLocation().toLowerCase().contains(lower))
+                .filter(app -> (app.getCompany() != null && app.getCompany().toLowerCase().contains(lower)) ||
+                               (app.getPosition() != null && app.getPosition().toLowerCase().contains(lower)) ||
+                               (app.getCandidateName() != null && app.getCandidateName().toLowerCase().contains(lower)) ||
+                               (app.getCandidateEmail() != null && app.getCandidateEmail().toLowerCase().contains(lower)) ||
+                               (app.getLocation() != null && app.getLocation().toLowerCase().contains(lower)))
                 .collect(Collectors.toList());
     }
 

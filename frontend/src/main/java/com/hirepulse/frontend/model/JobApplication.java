@@ -15,6 +15,12 @@ public class JobApplication {
     private String notes;
     private Priority priority;
 
+    // Applicant Specific Fields
+    private String candidateName;
+    private String candidateEmail;
+    private String experience;
+    private String resumeLink;
+
     public enum Status {
         WISHLIST("Wishlist", "hp-badge-primary"),
         APPLIED("Applied", "hp-badge-primary"),
@@ -42,7 +48,14 @@ public class JobApplication {
     public JobApplication() {}
 
     public JobApplication(String id, String company, String position, Status status, String location, 
-                          String salaryRange, LocalDate appliedDate, String contactPerson, String notes, Priority priority) {
+                           String salaryRange, LocalDate appliedDate, String contactPerson, String notes, Priority priority) {
+        this(id, company, position, status, location, salaryRange, appliedDate, contactPerson, notes, priority, 
+             "John Doe", "john@example.com", "2 Years", "https://github.com/johndoe/resume.pdf");
+    }
+
+    public JobApplication(String id, String company, String position, Status status, String location, 
+                           String salaryRange, LocalDate appliedDate, String contactPerson, String notes, Priority priority,
+                           String candidateName, String candidateEmail, String experience, String resumeLink) {
         this.id = id;
         this.company = company;
         this.position = position;
@@ -53,6 +66,10 @@ public class JobApplication {
         this.contactPerson = contactPerson;
         this.notes = notes;
         this.priority = priority;
+        this.candidateName = (candidateName != null && !candidateName.trim().isEmpty()) ? candidateName : "John Doe";
+        this.candidateEmail = (candidateEmail != null && !candidateEmail.trim().isEmpty()) ? candidateEmail : "john@example.com";
+        this.experience = (experience != null && !experience.trim().isEmpty()) ? experience : "1.5 Years";
+        this.resumeLink = (resumeLink != null && !resumeLink.trim().isEmpty()) ? resumeLink : "Google Drive Resume Link";
     }
 
     // Getters and Setters
@@ -88,4 +105,16 @@ public class JobApplication {
 
     public Priority getPriority() { return priority; }
     public void setPriority(Priority priority) { this.priority = priority; }
+
+    public String getCandidateName() { return candidateName; }
+    public void setCandidateName(String candidateName) { this.candidateName = candidateName; }
+
+    public String getCandidateEmail() { return candidateEmail; }
+    public void setCandidateEmail(String candidateEmail) { this.candidateEmail = candidateEmail; }
+
+    public String getExperience() { return experience; }
+    public void setExperience(String experience) { this.experience = experience; }
+
+    public String getResumeLink() { return resumeLink; }
+    public void setResumeLink(String resumeLink) { this.resumeLink = resumeLink; }
 }

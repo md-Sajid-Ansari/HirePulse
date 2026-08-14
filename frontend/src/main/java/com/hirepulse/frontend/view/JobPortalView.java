@@ -14,6 +14,7 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -194,7 +195,67 @@ public class JobPortalView extends VerticalLayout {
         Button detailsBtn = new Button("View Full Details", VaadinIcon.INFO_CIRCLE.create(), e -> openJobDetailsDialog(job));
         detailsBtn.addThemeVariants(ButtonVariant.LUMO_TERTIARY, ButtonVariant.LUMO_SMALL);
 
-        Button applyBtn = new Button("Apply Now 🚀", e -> {
+        Button applyBtn = new Button("Apply Now 🚀", e -> openApplyModal(job));
+        applyBtn.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SMALL);
+        applyBtn.getStyle().set("background", "linear-gradient(135deg, #00b4d8 0%, #0077b6 100%)");
+
+        HorizontalLayout actions = new HorizontalLayout(detailsBtn, applyBtn);
+        actions.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
+
+        card.add(topRow, desc, skillRow, actions);
+        return card;
+    }
+
+    private void openApplyModal(JobItem job) {
+        Dialog dialog = new Dialog();
+        dialog.setWidth("480px");
+
+        // Title Header with close button
+        H3 title = new H3("Apply for " + job.getTitle() + " at " + job.getCompany());
+        title.getStyle()
+                .set("font-weight", "800")
+                .set("font-size", "1.25rem")
+                .set("color", "var(--lumo-header-text-color, #0f172a)")
+                .set("margin", "0")
+                .set("line-height", "1.35");
+
+        Button closeBtn = new Button(VaadinIcon.CLOSE.create(), e -> dialog.close());
+        closeBtn.addThemeVariants(ButtonVariant.LUMO_TERTIARY, ButtonVariant.LUMO_ICON);
+        closeBtn.getStyle().set("color", "#94a3b8").set("font-size", "1rem");
+
+        HorizontalLayout headerRow = new HorizontalLayout(title, closeBtn);
+        headerRow.setWidthFull();
+        headerRow.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
+        headerRow.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.START);
+        headerRow.getStyle().set("margin-bottom", "12px");
+
+        // Form Fields
+        TextField fullNameField = new TextField("Full Name *");
+        fullNameField.setPlaceholder("John Doe");
+        fullNameField.setValue("John Doe");
+        fullNameField.setWidthFull();
+
+        TextField emailField = new TextField("Email Address *");
+        emailField.setPlaceholder("john@example.com");
+        emailField.setValue("john@example.com");
+        emailField.setWidthFull();
+
+        TextField experienceField = new TextField("Years of Experience");
+        experienceField.setPlaceholder("e.g. 1.5 Years");
+        experienceField.setWidthFull();
+
+        TextArea resumeLinkArea = new TextArea("Resume Link / Highlights");
+        resumeLinkArea.setPlaceholder("Paste Google Drive / GitHub resume link or key skill summary...");
+        resumeLinkArea.setWidthFull();
+        resumeLinkArea.setHeight("90px");
+
+        // Submit Button
+        Button submitBtn = new Button("Submit Job Application", e -> {
+            if (fullNameField.getValue().isEmpty() || emailField.getValue().isEmpty()) {
+                Notification.show("Please complete required fields (*)", 3000, Notification.Position.MIDDLE);
+                return;
+            }
+
             JobApplication app = new JobApplication(
                     null,
                     job.getCompany(),
@@ -204,20 +265,39 @@ public class JobPortalView extends VerticalLayout {
                     job.getSalary(),
                     LocalDate.now(),
                     "Recruiting Team",
-                    "Applied via HirePulse Job Portal on " + LocalDate.now(),
-                    Priority.HIGH
+                    "Submitted via Apply Modal",
+                    Priority.HIGH,
+                    fullNameField.getValue(),
+                    emailField.getValue(),
+                    experienceField.getValue(),
+                    resumeLinkArea.getValue()
             );
+
             applicationService.save(app);
-            Notification.show("Applied to " + job.getCompany() + "! Added to My Applications.", 3000, Notification.Position.BOTTOM_END);
+            dialog.close();
+
+            Notification notif = Notification.show("🎉 Application submitted for " + job.getTitle() + " at " + job.getCompany() + "!", 3500, Notification.Position.BOTTOM_END);
+            notif.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
         });
-        applyBtn.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SMALL);
-        applyBtn.getStyle().set("background", "linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)");
+        submitBtn.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        submitBtn.setWidthFull();
+        submitBtn.getStyle()
+                .set("background", "#00b4d8")
+                .set("color", "#ffffff")
+                .set("font-weight", "700")
+                .set("font-size", "0.95rem")
+                .set("border-radius", "10px")
+                .set("padding", "12px")
+                .set("margin-top", "16px");
 
-        HorizontalLayout actions = new HorizontalLayout(detailsBtn, applyBtn);
-        actions.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
+        VerticalLayout modalContent = new VerticalLayout(
+                headerRow, fullNameField, emailField, experienceField, resumeLinkArea, submitBtn
+        );
+        modalContent.setPadding(true);
+        modalContent.setSpacing(true);
 
-        card.add(topRow, desc, skillRow, actions);
-        return card;
+        dialog.add(modalContent);
+        dialog.open();
     }
 
     private void openJobDetailsDialog(JobItem job) {
@@ -254,12 +334,8 @@ public class JobPortalView extends VerticalLayout {
         content.add(descTitle, desc, respTitle, respList, reqTitle, reqList, perkTitle, perkList);
 
         Button applyBtn = new Button("Apply Now", e -> {
-            JobApplication app = new JobApplication(
-                    null, job.getCompany(), job.getTitle(), Status.APPLIED, job.getLocation(), job.getSalary(), LocalDate.now(), "HR", "Applied via Job Portal", Priority.HIGH
-            );
-            applicationService.save(app);
             dialog.close();
-            Notification.show("Application submitted!", 2500, Notification.Position.BOTTOM_END);
+            openApplyModal(job);
         });
         applyBtn.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 

@@ -107,6 +107,7 @@
     "@vaadin/text-area": "24.3.6",
     "@vaadin/text-field": "24.3.6",
     "@vaadin/tooltip": "24.3.6",
+    "@vaadin/upload": "24.3.6",
     "@vaadin/vaadin-development-mode-detector": "2.0.6",
     "@vaadin/vaadin-lumo-styles": "24.3.6",
     "@vaadin/vaadin-themable-mixin": "24.3.6",
@@ -154,6 +155,7 @@
     "@vaadin/text-area/theme/lumo/vaadin-text-area.js",
     "@vaadin/text-field/theme/lumo/vaadin-text-field.js",
     "@vaadin/tooltip/theme/lumo/vaadin-tooltip.js",
+    "@vaadin/upload/theme/lumo/vaadin-upload.js",
     "@vaadin/vaadin-lumo-styles/color-global.js",
     "@vaadin/vaadin-lumo-styles/sizing.js",
     "@vaadin/vaadin-lumo-styles/spacing.js",
@@ -188,7 +190,7 @@
     "hirepulse": "{\n  \"lumoVariant\": \"dark\"\n}\n"
   },
   "entryScripts": [
-    "VAADIN/build/indexhtml-C15nIQwG.js"
+    "VAADIN/build/indexhtml-tSINwz3i.js"
   ],
   "webComponents": [
     
@@ -198,7 +200,7 @@
   },
   "packageJsonHash": "c077a98be83a50df5a3692e09006ff035e3abb24e79b9d284e9cfb72cf49395f",
   "indexHtmlGenerated": [
-    "  <script type=\"module\" crossorigin src=\"./VAADIN/build/indexhtml-C15nIQwG.js\"></script>",
+    "  <script type=\"module\" crossorigin src=\"./VAADIN/build/indexhtml-tSINwz3i.js\"></script>",
     "  <link rel=\"stylesheet\" crossorigin href=\"./VAADIN/build/indexhtml-pgsWgT7i.css\">"
   ],
   "pre-compiled": true
