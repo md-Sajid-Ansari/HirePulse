@@ -21,6 +21,7 @@ com\hirepulse\frontend\service\JobApplicationService.class
 com\hirepulse\frontend\model\JobApplication.class
 com\hirepulse\frontend\service\AuthService.class
 com\hirepulse\frontend\service\EmailNotificationService.class
+com\hirepulse\frontend\view\ApplicantSpreadsheetView.class
 com\hirepulse\frontend\HirePulseFrontendApplication.class
 com\hirepulse\frontend\model\JobApplication$Status.class
 com\hirepulse\frontend\model\CompanyProfile.class

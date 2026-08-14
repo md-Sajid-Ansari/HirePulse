@@ -72,6 +72,13 @@ public class ApplicationTrackerView extends VerticalLayout {
         VerticalLayout titleBox = new VerticalLayout(title, subtitle);
         titleBox.setPadding(false);
 
+        Button spreadsheetBtn = new Button("View Spreadsheet 📊", VaadinIcon.TABLE.create(), e -> UI.getCurrent().navigate(ApplicantSpreadsheetView.class));
+        spreadsheetBtn.addThemeVariants(ButtonVariant.LUMO_TERTIARY, ButtonVariant.LUMO_SMALL);
+        spreadsheetBtn.getStyle()
+                .set("background", "rgba(16, 185, 129, 0.15)")
+                .set("color", "#6ee7b7")
+                .set("font-weight", "700");
+
         Button emailLogBtn = new Button("Sent Emails Log 📩", VaadinIcon.ENVELOPE.create(), e -> openSentEmailsLogDialog());
         emailLogBtn.addThemeVariants(ButtonVariant.LUMO_TERTIARY, ButtonVariant.LUMO_SMALL);
         emailLogBtn.getStyle()
@@ -83,7 +90,7 @@ public class ApplicationTrackerView extends VerticalLayout {
         addBtn.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         addBtn.getStyle().set("background", "linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)");
 
-        HorizontalLayout actions = new HorizontalLayout(emailLogBtn, addBtn);
+        HorizontalLayout actions = new HorizontalLayout(spreadsheetBtn, emailLogBtn, addBtn);
         actions.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
 
         HorizontalLayout bar = new HorizontalLayout(titleBox, actions);

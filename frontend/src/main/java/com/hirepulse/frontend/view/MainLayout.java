@@ -268,8 +268,9 @@ public class MainLayout extends AppLayout {
         SideNavItem prepItem = new SideNavItem("Prep Hub", PrepHubView.class, VaadinIcon.BOOK.create());
         SideNavItem companyItem = new SideNavItem("Companies Hiring Guide", CompanyGuideView.class, VaadinIcon.BUILDING.create());
         SideNavItem trackerItem = new SideNavItem("My Applications", ApplicationTrackerView.class, VaadinIcon.CHECK_CIRCLE.create());
+        SideNavItem spreadsheetItem = new SideNavItem("Applicants Spreadsheet", ApplicantSpreadsheetView.class, VaadinIcon.TABLE.create());
 
-        nav.addItem(jobsItem, dsaItem, prepItem, companyItem, trackerItem);
+        nav.addItem(jobsItem, dsaItem, prepItem, companyItem, trackerItem, spreadsheetItem);
 
         Span navHeader = new Span("NAVIGATION");
         navHeader.addClassNames(
